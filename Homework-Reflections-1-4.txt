@@ -5,11 +5,20 @@ Homework reflection 1
 
 1. In Coding Quiz 1, you are asked to find the distance of the farthest match in a set.  Is this farthest match distance too far to be a meaningful match?  How can you decide this?
 
+The max distance of approximately 0.21 is likely too far to be meaningful. I decided this by plotting a histogram of the Z values, calculating the standard deviation, and plotting a histrogram of the distances.
+For the Z value distribution, it appears to have a mean around 0.5 with a standard deviation of approximately 0.3. This tells me that while the farthest distance is within one standard deviation of the Z values, it is closer to the higher end.
+Next, I plotted a histogram of the distances. I discovered that the mean was approximately 0.05 and the standard deviation was 0.07. This is approximately 3 standard deviations away. Additionally, the 95th percentile is approximately 0.20.
+
 2. In Coding Quiz 1, there are two approaches to matching: 
 (A) Picking the best match X = 0 corresponding to each X = 1 using Z values.
 (B) Using radius_neighbors to pick all matches X = 0 within a distance of 0.2 of each X = 1.
 
 Invent your own type of matching similar to 1 and 2 (or look one up on the internet), which has a different way to pick the matches in X = 0.  Clearly explain the approach you invented or found.
+
+I created a method I call weighted matching. Instead of picking only one match or only the matches in a radius, I use all controls (X=0) and I gave them a weight based on how close they are to Z
+in the treated unit. If Z is an exact match, the weight is 1. If Z is far away, the weight approaches 0. So every control is included, but the closer controls matter more in determining the effect.
+This means that information is not lost, but that controls that are closer are prioritized. The weight is calculated by doing 1 - (distances / max_distance), with a clipping used to stay between 0 and 1.
+Doing this on the quiz 1 homeowrk 1.2 data, I found an effect of approximately 0.69, which was higher than the effects found using nearest neighbor or the radius neighbors.
 
 Homework reflection 2
 
