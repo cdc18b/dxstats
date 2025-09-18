@@ -24,7 +24,15 @@ Homework reflection 2
 
 1. Invent an example situation that would use fixed effects.
 
+An example of when to use fixed effects is estimating the impact of the same gun control policy, like an assault weapons ban, across three countries over several years. We assume each country has traits that do not change over time and that affect the baseline level of gun deaths, like legal traditions, culture, geography, economy, and demographics.
+With country fixed effects, we control for those baselines. This lets us isolate the policy’s effect. For example, we might estimate that the ban reduces gun deaths by 5 per 100,000 people per year on average, plus random noise with mean 0. Countries can start at different baseline levels,
+but the policy effect is the same for all countries in this fixed effects model.
+
 2. Write a Python program that performs a bootstrap simulation to find the variance in the mean of the Pareto distribution when different samples are taken.  Explain what you had to do for this.  As you make the full sample size bigger (for the same distribution), what happens to the variance of the mean of the samples?  Does it stay about the same, get smaller, or get bigger?
+
+I set the shape to 2.5 and the minimum to 1 so the data is still heavy-tailed but has a real variance. For each sample size, I made one dataset. Then I did a bootstrap: I made many new “fake” samples by picking numbers from my dataset at random with replacement, which means I could pick the same number more than once. I found the average of each fake sample and looked at how
+spread out those averages were. That spread is my estimate of the variance of the sample mean for that sample size. I set a random seed so someone else can repeat my steps and get the same results. When I compared different sample sizes, I saw that as the sample size got bigger, the variance of the mean got smaller. Bigger samples make the average steadier and
+less fluctuating, which is what I expect when you average more numbers.
 
 Homework reflection 3
 
