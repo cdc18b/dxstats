@@ -38,7 +38,13 @@ Homework reflection 3
 
 1. In the event study in Coding Quiz 3, how would we go about testing for a change in the second derivative as well?
 
+Testing a first derivative change asks “did the slope tilt after the event,” so you run a simple model with a constant, time, an “after” flag, and “time_after,” then you check the “time_after” coefficient. Testing a second derivative change asks “did the bend speed up or slow down after the event,” so you keep those pieces but also add “time_squared” and “time_after_squared,”
+then you check the “time_after_squared” coefficient with a t test. If it is not zero, the bend changed, and the size of that bend change is two times that coefficient.
+
 2. Create your own scenario that illustrates differences-in-differences. Describe the story behind the data and show whether there is a nonzero treatment effect.
+
+In the scenario, researchers tracked murders for 1,000 days in Dallas and Fort Worth. Both cities were already going down a little each day, and Dallas started higher by about five murders on average. On day 500, Dallas ended cashless bail. After that day, the regression says Dallas dropped extra compared with Fort Worth. The key number is the treated_post estimate of about −1.28,
+which means Dallas had around 1.3 fewer murders per day than we would expect if nothing had changed. This estimate is precise enough that it is very unlikely to be zero, and a simple confidence interval runs from about −1.7 to −0.8. So yes, there is a real, nonzero treatment effect, and it is negative.
 
 Homework reflection 4
 
