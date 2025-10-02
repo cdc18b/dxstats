@@ -50,4 +50,56 @@ Homework reflection 4
 
 1. The Coding Quiz gives two options for instrumental variables.  For the second item (dividing the range of W into multiple ranges), explain how you did it, show your code, and discuss any issues you encountered.
 
+h41_bin = h41[(h41.W >= -1) & (h41.W <= -0.5) | (h41.W >= 0.5) & (h41.W <= 1)]
+y_diff_bin = h41_bin[h41_bin.Z==1].Y.mean() - h41_bin[h41_bin.Z==0].Y.mean()
+x_diff_bin = h41_bin[h41_bin.Z==1].X.mean() - h41_bin[h41_bin.Z==0].X.mean()
+y_diff_bin / x_diff_bin
+
+I created a binned dataframe by finding values of W (the confounder) that were between -1 and -0.5 or between 0.5 and 1. I then found the y difference by subtracting cases where the treatment was 0 from cases where the treatment was 1. I found the x difference by substracting the cases where the treatment was 0 from the cases where the treatment was 1.
+I finally divided the y difference by the x difference to get the treatment effect of approximately 1.49. One issue is that I initially only included one range (>= -0.5 & <= 0.5), but this question says I should have multiple ranges. However, I recieved a very simialr result to using the full range of W ( approximately 1.56).
+
+
 2. Plot the college outcome (Y) vs. the test score (X) in a small range of test scores around 80. On the plot, compare it with the Y probability predicted by logistic regression. The ground truth Y value is 0 or 1; don't just plot 0 or 1 - that will make it unreadable.  Find some way to make it look better than that.
+
+h42a_bin77 = h42a[(h42a.X >= 77) & (h42a.X <= 77.99)]
+h42a_bin78 = h42a[(h42a.X >= 78) & (h42a.X <= 78.99)]
+h42a_bin79 = h42a[(h42a.X >= 79) & (h42a.X <= 79.99)]
+h42a_bin80 = h42a[(h42a.X >= 80) & (h42a.X <= 80.99)]
+h42a_bin81 = h42a[(h42a.X >= 81) & (h42a.X <= 81.99)]
+h42a_bin82 = h42a[(h42a.X >= 82) & (h42a.X <= 82.99)]
+
+h42a_bin78_y_mean = h42a_bin78.Y.mean()
+h42a_bin79_y_mean = h42a_bin79.Y.mean()
+h42a_bin80_y_mean = h42a_bin80.Y.mean()
+h42a_bin81_y_mean = h42a_bin81.Y.mean()
+h42a_bin82_y_mean = h42a_bin82.Y.mean()
+
+model = smf.logit("Y ~ X", data=h42a).fit()
+x_vals = numpy.linspace(77, 82, 100)
+y_vals = model.predict(pd.DataFrame({"X": x_vals}))
+plt.plot(x_vals, y_vals, label="Logistic Regression Prediction", color="blue")
+
+bin_midpoints = [77.5, 78.5, 79.5, 80.5, 81.5, 82.5]
+plt.plot(
+    bin_midpoints,
+    [
+        h42a_bin77.Y.mean(),
+        h42a_bin78_y_mean,
+        h42a_bin79_y_mean,
+        h42a_bin80_y_mean,
+        h42a_bin81_y_mean,
+        h42a_bin82_y_mean,
+    ],
+    marker="o",
+    label="Bin Means",
+)
+plt.xticks(bin_midpoints, ["77-77.99", "78-78.99", "79-79.99", "80-80.99", "81-81.99", "82-82.99"])
+plt.xlabel("X Bins")
+plt.ylabel("Mean Y")
+plt.title("Mean Y by Binned X Near Cutoff")
+plt.axvline(x=80, color="r", linestyle="--", label="Cutoff at 80")
+plt.legend()
+plt.show()
+
+I looked at test scores from 77 to 83. I put the scores into 1-point bins and plotted the average of Y in each bin, so I am not just showing a bunch of 0s and 1s. I also fit a logistic regression and drew its predicted chance as a smooth line. The red vertical line marks the cutoff at 80.
+The points jump a lot right after 80 and then stay near about 0.6, while the blue line rises slowly, so I can compare the sharp change in the data with the logistic regression model.
