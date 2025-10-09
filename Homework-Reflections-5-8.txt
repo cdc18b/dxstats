@@ -13,6 +13,8 @@ Remember that we are using directed acyclic graphs where two things cannot direc
 
 2. Describe an example of a positive feedback loop.  This means that one things increases another while the second things also increases the first.
 
+An example of a positive feedback loop is a viral post on social media. A viral post has a lot of shares. More shares cause more views. More views cause even more shares. More shares cause even more views. This is a positive feedback loop because the output feeds back into the input.
+
 3. Draw a diagram for the following situation:
 
 Lightning storms frighten away deer and bears, decreasing their population, and cause flowers to grow, increasing their population.
@@ -23,7 +25,11 @@ Write a dataset that simulates this situation.  (Show the code.) Include noise /
 
 Identify a backdoor path with one or more confounders for the relationship between deer and flowers.
 
+One backdoor path is deer ← lightning_storm → flowers and the other is deer ← bears ← lightning_storm → flowers. The confounders are lightning_storm and flowers.
+
 4. Draw a diagram for a situation of your own invention.  The diagram should include at least four nodes, one confounder, and one collider.  Be sure that it is acyclic (no loops).  Which node would say is most like a treatment (X)?  Which is most like an outcome (Y)?
+
+In my invented directed acyclic graph, wildfires cause less get-out-the-vote (GOTV) operations, less voter turnout, and higher wait times at the polls. More GOTV operations cause higher voter turnout. Higher voter turnout causes longer wait times. Therefore, the treatment (X) is the GOTV operation, the outcome is voter turnout (Y), the confounder is the wildfire, and the collider is wait time.
 
 Homework Reflection 6
 
