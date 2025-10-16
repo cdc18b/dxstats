@@ -37,9 +37,16 @@ Homework Reflection 6
 Possible answer: We are likely to find the item with the most extreme difference, which may be high simply due to randomness.
 (Please explain / justify this answer, or give a different one if you can think of one.)
 
+Picking the single largest matched difference is like running many tests and only keeping the biggest number, so chance alone can be deceptive. Even if true effect is low, random noise in outcomes and matching errors (nearest neighbor still somewhat far) can make one untreated item look huge by luck. This means the simple max will be biased and very unstable. If we took a new sample, a different item might be the highest and the estimate could jump a lot.
+As the dataset gets bigger, the maximum tends to grow even when the real effect does not. Therefore, the taking the max treatment effect is likely too large and high variance unless you indicate that there is strong uncertainty.
+
+
 2. Propose a solution that remedies this problem and write some code that implements your solution.  It's very important here that you clearly explain what your solution will do.
 Possible answer: maybe we could take the 90th percentile of the treatment effect and use it as a proxy for the Marginal Treatment Effect.
 (Either code this answer or choose a different one.)
+
+Instead of taking the single biggest effect, use a high percentile of the untreated effects after matching, like the 90th percentile. This still targets a high effect, but it uses many data points, not just one. Therefore it reduces random noise, giving a more reliable estimate.
+
 
 Homework Reflection 7
 
