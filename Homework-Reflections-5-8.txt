@@ -52,6 +52,9 @@ Homework Reflection 7
 
 1. Create a linear regression model involving a confounder that is left out of the model.  Show whether the true correlation between $$X$$ and $$Y$$ is overestimated, underestimated, or neither.  Explain in words why this is the case for the given coefficients you have chosen.
 
+W affects both X and Y, so it is a confounder. The true direct effect of X on Y is 1, but when you leave W out and regress Y only on X, the model wrongly assigns some of W’s effect to X. Because X tends to be high when W is high, and W also pushes Y up by 2, the estimated slope on X becomes about 2 on average.
+So the X effect is overestimated. The correlation between X and Y is about 0.853 in this setup. Sample correlations will be around that number, not consistently above or below it. The bias shows up in the regression slope when the confounder is omitted.
+
 2. Perform a linear regression analysis in which one of the coefficients is zero, e.g.
 
 W = [noise]
@@ -63,6 +66,9 @@ And compute the p-value of a coefficient - in this case, the coefficient of W.
 If the p-value is less than 0.05, this ordinarily means that we judge the coefficient to be nonzero (incorrectly, in this case.)
 Run the analysis 1000 times and report the best (smallest) p-value.  
 If the p-value is less than 0.05, does this mean the coefficient actually is nonzero?  What is the problem with repeating the analysis?
+
+Here the true coefficient of W is zero. A p-value is the chance of getting an estimate at least this extreme if the true effect is zero. If you run one test, about 5% of p-values will be below 0.05 just by luck. If you run the whole analysis 1,000 times and only report the smallest p-value,
+you will almost always find a very tiny number even though W truly has no effect. That tiny p-value does not prove W matters. The problem is repeating the analysis and cherry-picking the best result, which leads to false positives.
 
 Homework Reflection 8
 
