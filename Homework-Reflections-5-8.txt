@@ -73,3 +73,14 @@ you will almost always find a very tiny number even though W truly has no effect
 Homework Reflection 8
 
 Include the code you used to solve the two coding quiz problems and write about the obstacles / challenges / insights you encountered while solving them.
+
+Coding Quiz 5, Question 2:
+
+I wanted to see what happens when I control for a collider, so I kept the same structure where “difficulty” and “speed” both helped determine “accident.” I ran it 10,000 times with 100,000 rows each time so that the average would settle, although I noticed right away that this was computationally expensive and time consuming.
+I could have started with smaller numbers first. The main challenge was reminding myself that the bad part is not the regression code but the causal mechanism. By conditioning on “accident,” which is caused by both the predictor and the outcome, I opened a backdoor path and pulled the coefficient on difficulty away from the true data generating process.
+I also checked that the average coefficient was about -10, which lined up with the way I subtracted difficulty times ten when I created speed, so the result was not random but created by my own collider mistake. This was a good reminder that “controls” are not always good and that causal diagrams should come before code.
+
+Coding Quiz 6, Question 2:
+
+For this one I was careful about which group to match to which, because I wanted the average treatment tffect on the treated (ATT) and not the effect on the untreated (ATU). That meant I had to fit the nearest neighbor model on the control group and then find the closest control unit for every treated unit. At first it was easy to flip that by accident, which would have given me the ATU.
+The other small challenge was remembering to match on Z only, since that was the covariate available, and then to pull the matched Y values from the control rows using the returned indices. Once I did that, the ATT was about 1.8. The bigger insight was that the code looks like simple sklearn matching, but the interpretation is causal only because I was explicit about which group defines the target population. 
