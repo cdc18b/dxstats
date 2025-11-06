@@ -6,11 +6,17 @@ Homework Reflection 9
 1. Write some code that will use a simulation to estimate the standard deviation of the coefficient when there is heteroskedasticity.  
 Compare these standard errors to those found via statsmodels OLS or a similar linear regression model.
 
+I ran the simulation where noise grows with the size of x and found the effect's standard deviation is 0.053725, but the average OLS standard error is 0.03155.
+So OLS makes me feel too confident here. The true sampling spread is larger than the SE OLS reports (about 41%).
+
 2. Write some code that will use a simulation to estimate the standard deviation of the coefficient when errors are highly correlated / non-independent.
 Compare these standard errors to those found via statsmodels OlS or a similar linear regression model.
 
 Show that if the correlation between coefficients is high enough, then the estimated standard deviation of the coefficient, using bootstrap errors, 
 might not match that found by a full simulation of the Data Generating Process.  (This can be fixed if you have a huge amount of data for the bootstrap simulation.)
+
+I ran a test to see how well regular and bootstrap standard errors work when data points are related to each other. When the errors were random, both methods gave good results.
+But when I made the errors more connected, both methods started to underestimate how much the slope really varied. This means they made me think my estimates were more certain than they really were.
 
 Homework Reflection 10
 
