@@ -30,11 +30,28 @@ Build a model that tries to decide whether the event is real (has a nonzero effe
 (b) the value, derivative, and second derivative.
 Which of these models is better at detecting and/or quantifying the impact of the event?  (What might "better" mean here?)
 
+The two models score the same here because the simulated jumps in value, slope, and curvature are so large and clean that even a model using only the value can separate pre-event and post-event periods perfectly.
+In a real event study, though, the better model is the one that improves detection when the signal is weak, noisy, or gradual. Adding the derivative and second derivative usually helps because it gives the model
+more ways to notice how the system changes over time. The slope and curvature often shift earlier or more sharply than the level, so these features can raise recall for true events and reduce false positives.
+Therefore, even though both models reach perfect accuracy in this toy example, the richer feature set would matter once the effect is smaller, measurement error increases, or the event unfolds over several periods.
+
 2. Construct a dataset in which there are three groups whose values each increase discontinuously (suddenly) by the same amount at a shared event; they change in parallel
 over time, but they have different starting values.  Create a model that combines group fixed effects with an event study, as suggested in the online reading.
 Explain what you did, how the model works, and how it accounts for both baseline differences and the common event effect.
+
+I created three groups that follow parallel upward trends but begin at different baseline levels. At a single event time, all groups jump by the same amount. This setting lets us separate two pieces of variation.
+First, each group has its own fixed effect, which captures constant baseline differences such as starting values or stable group characteristics. Second, the event study term captures the shared jump at the event.
+The model includes group indicators to absorb baseline gaps and a post-event indicator to estimate the common effect of the event. The key idea is that the fixed effects explain why groups sit at different levels
+even before the event, while the event term measures the average discontinuous change that happens across all groups at the same time. Because the groups follow parallel paths, the event coefficient isolates the vertical
+jump rather than slope differences or noise.
 
 Homework Reflection 12
 
 Construct a dataset in which prior trends do not hold, and in which this makes the differences-in-differences come out wrong.  Explain why the
 differences-in-differences estimate of the effect comes out higher or lower than the actual effect.
+
+I built two groups that start at different levels and move in different directions even before the event. One group has a stable upward trend. The other group slows down before the event and begins to flatten.
+At the event time, only the treatment group receives a real positive jump. Because the untreated group is already bending downward, the standard differences-in-differences method thinks the treated group would have
+followed the same downward path. This makes the estimated treatment effect look larger than it really is. Differences-in-differences incorrectly treats the pre-event divergence in slopes as if it were caused by the event,
+which inflates the estimated effect. In other situations, the same issue can push the estimate in the opposite direction, depending on which group’s trend breaks. The method breaks because it tries to learn the counterfactual
+by extending the pre-event gap forward in time, even though the groups were never on parallel paths.
